@@ -4,6 +4,7 @@ use cardano/assets.{add, from_lovelace, zero}
 use cardano/transaction.{
   InlineDatum, Input, NoDatum, Output, OutputReference, Transaction,
 }
+use merkle_oracle/constants.{null_hash}
 use merkle_oracle/merkle_oracle_validator.{merkle_oracle_mint_validator}
 use merkle_oracle/tests/global_test_variables.{
   alice_address_hash, one_ada, oracle_contract_hash, oracle_singleton_asset_name,
@@ -43,8 +44,8 @@ test create_genesis() {
 
   let oracle_output_datum =
     MerkleOracleDatum {
-      merkle_root: #"",
-      ipfs_cid: #"",
+      merkle_root: null_hash,
+      ipfs_cid: null_hash,
       admin_singleton_policy_id: #"9622b0ef9aa1bd62d1c524d0e5e494aff7e75c5678f55f55e2115690",
       admin_singleton_asset_name: #"6d756c74697369675f73696e676c65746f6e",
       created_at: current_time,

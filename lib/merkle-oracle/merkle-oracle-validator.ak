@@ -2,7 +2,7 @@ use aiken/collection/list
 use cardano/address.{Script}
 use cardano/assets.{AssetName, PolicyId}
 use cardano/transaction.{InlineDatum, Output, OutputReference, Transaction}
-use merkle_oracle/constants.{contract_output_index}
+use merkle_oracle/constants.{contract_output_index, null_hash}
 use merkle_oracle/multisig.{valid_multisig}
 use merkle_oracle/persistance.{valid_persistance}
 use merkle_oracle/singleton_withdraw.{valid_singleton_withdraw}
@@ -96,11 +96,14 @@ pub fn merkle_oracle_mint_validator(
 
       expect InlineDatum(output_datum) = output.datum
 
-      expect MerkleOracleDatum { created_at, .. }: MerkleOracleDatum =
+      expect MerkleOracleDatum { merkle_root, ipfs_cid, created_at, .. }: MerkleOracleDatum =
         output_datum
       expect created_at == get_current_time(tx.validity_range)
 
-      True
+      and {
+        merkle_root == null_hash,
+        ipfs_cid == null_hash,
+      }
     }
     _ -> False
   }
